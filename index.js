@@ -1,12 +1,12 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
-// const args = process.argv.slice(2);
-// const slackWebhook = args[0];
+const args = process.argv.slice(2);
+const webhooksFile = args[0];
 
 const webhooks = [];
 
 const reader = require('readline').createInterface({
-  input: fs.createReadStream('./webhooks.txt'),
+  input: fs.createReadStream(webhooksFile),
 });
 
 reader.on('line', line => {
@@ -41,8 +41,6 @@ Last Updated: ${time.toLocaleString()}
       let promises = [];
 
       for (const webhook of webhooks) {
-
-        console.log(webhook);
         promises.push(fetch(webhook, {
           method: 'post',
           body:    JSON.stringify(body),
